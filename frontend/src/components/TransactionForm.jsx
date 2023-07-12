@@ -1,6 +1,7 @@
 import { useContext, useReducer, useState } from "react";
 import { TransactionContext } from "./context/TransactionContext";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const TransactionForm = () => {
   const [description, setDescription] = useState("");
@@ -13,8 +14,9 @@ const TransactionForm = () => {
   const [showIncomeRectangle, setShowIncomeRectangle] = useState(true);
   const [showExpenseRectangle, setShowExpenseRectangle] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const handleSubmit = () => {
-    // e.preventDefault();
     axios
       .post("http://localhost:4000/api/transactions/", transaction)
       .then((res) => {
@@ -39,6 +41,20 @@ const TransactionForm = () => {
     setSpecification("Expense");
   };
 
+  const { mutate, isLoading } = useMutation(handleSubmit, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("transaction");
+      console.log("transaction added successfully");
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const handleFormSubmit = () => {
+    mutate();
+  };
+
   // console.log({description, amount, specification})
 
   // const incomeSide =
@@ -55,7 +71,7 @@ const TransactionForm = () => {
         <hr className="border-[0.1px] border-[#e0e0e0] mb-3" />
         <form
           className="mt-3 flex max-w-md flex-col items-center gap-4"
-          onSubmit={() => handleSubmit()}
+          onSubmit={(e) => handleFormSubmit(e.preventDefault)}
         >
           {/* description */}
           <div>
@@ -120,13 +136,21 @@ const TransactionForm = () => {
               </div>
             </div> */}
           </div>
-
-          <button
-            type="submit"
-            className="bg-[#1A1A1A] hover:bg-[#444444] w-[330px] 5 p-2 rounded-md text-white"
-          >
-            Add Transaction
-          </button>
+          {isLoading ? (
+            <button
+              type="submit"
+              className="bg-[#1A1A1A] hover:bg-[#444444] w-[330px] 5 p-2 rounded-md text-white"
+            >
+              Adding...
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="bg-[#1A1A1A] hover:bg-[#444444] w-[330px] 5 p-2 rounded-md text-white"
+            >
+              Add Transaction
+            </button>
+          )}
         </form>
       </div>
     </div>
