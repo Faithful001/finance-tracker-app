@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    background: rgb(224, 224, 224);
+    overflow-x: hidden;
+    /* font-family: 'Barlow', sans-serif; */
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .home{
+    height: 100%;
+} */
