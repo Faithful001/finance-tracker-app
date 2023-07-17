@@ -3,6 +3,7 @@ const express = require("express")
 const cors = require('cors')
 const mongoose = require('mongoose')
 const transactionRouter = require('./views/transactionViews')
+const userRouter = require("./views/userViews")
 
 
 const app = express()
@@ -15,7 +16,9 @@ app.use((req, res, next)=>{
     next()
 })
 
+//middleware/routes
 app.use('/api/transactions', transactionRouter)
+app.use('/api/user', userRouter)
 
 
 mongoose.connect(process.env.MONGO_URI)

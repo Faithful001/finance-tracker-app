@@ -45,7 +45,7 @@ export const TransactionReducer = (state, action) => {
 export const TransactionContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(TransactionReducer, INITIALSTATE);
   return (
-    <TransactionContext.Provider value={{ state, dispatch }}>
+    <TransactionContext.Provider value={{ ...state, dispatch }}>
       {children}
     </TransactionContext.Provider>
   );
