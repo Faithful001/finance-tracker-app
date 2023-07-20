@@ -1,22 +1,31 @@
-const express = require('express')
+const express = require("express");
 
-const {getTransaction, getTransactions, createTransaction, deleteTransaction, deleteTransactions, updateTransaction} = require('../controllers.js/transactionControllers')
+const {
+  getTransaction,
+  getTransactions,
+  createTransaction,
+  deleteTransaction,
+  deleteTransactions,
+  updateTransaction,
+} = require("../controllers.js/transactionControllers");
 
+const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
 
+//require auth for all routes
+router.use(requireAuth);
 
-router.get('/', getTransactions)
+router.get("/", getTransactions);
 
-router.get('/:id', getTransaction)
+router.get("/:id", getTransaction);
 
-router.post('/', createTransaction)
+router.post("/", createTransaction);
 
-router.delete('/:id', deleteTransaction)
+router.delete("/:id", deleteTransaction);
 
-router.delete('/', deleteTransactions)
+router.delete("/", deleteTransactions);
 
-router.patch('/:id', updateTransaction)
-
+router.patch("/:id", updateTransaction);
 
 module.exports = router;

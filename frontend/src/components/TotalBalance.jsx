@@ -2,60 +2,66 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { TransactionContext } from "./context/TransactionContext";
+import { AuthContext } from "./context/AuthContext";
 
 const TotalBalance = () => {
-  const {state, dispatch} = useContext(TransactionContext)
-  const [balance, setBalance] = useState('$0')
+  const { dispatch } = useContext(TransactionContext);
+  const { user } = useContext(AuthContext);
+
+  const [balance, setBalance] = useState("$0");
 
   const handleExpense = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:4000/api/transactions/"
-      );
-      dispatch({ type: "GET_TRANSACTIONS", payload: response.data });
-      // console.log(response.data)
-      return response.data;
-      // setIncome(response.data.amount)
+      if (user && user.token) {
+        const response = await axios.get(
+          "http://localhost:4000/api/transactions/",
+          {
+            headers: {
+              Authorization: `Bearer: ${user.token}`,
+            },
+          }
+        );
+        dispatch({ type: "GET_TRANSACTIONS", payload: response.data });
+        return response.data;
+      }
     } catch (error) {
       console.log(error);
       throw error;
     }
   };
 
-  const { isLoading, error, data } = useQuery(
-    ["balance"],
-    handleExpense
-  );
-  
+  const query = useQuery(["balance"], handleExpense, {
+    enabled: Boolean(user),
+  });
+
   // if(isLoading){
   //   return <div>$0</div>;
   // }
 
   useEffect(() => {
-    if (data) {
-      const incomeSpec = data.filter((spec) =>
+    if (query.data) {
+      const incomeSpec = query.data.filter((spec) =>
         spec.specification.includes("Income")
       );
-  
-      const expenseSpec = data.filter((spec) =>
+
+      const expenseSpec = query.data.filter((spec) =>
         spec.specification.includes("Expense")
       );
       const totalIncomeAmount = incomeSpec.reduce((total, income) => {
         return total + income.amount;
       }, 0);
-  
+
       const totalExpenseAmount = expenseSpec.reduce((total, expense) => {
         return total + expense.amount;
       }, 0);
-  
-      setBalance(`$${totalIncomeAmount - totalExpenseAmount}`)
+
+      setBalance(`$${totalIncomeAmount - totalExpenseAmount}`);
     }
-  }, [data]);
+  }, [query.data, user]);
 
-  if (error){
-    return <div>Error:{error.message}</div>
-  }
-
+  // if (error) {
+  //   return <h1 className="text-3xl font-bold ">$--</h1>;
+  // }
 
   return (
     <div className="total-balance">
@@ -65,7 +71,11 @@ const TotalBalance = () => {
             TOTAL BALANCE:
           </h1>
           <br />
-          <h1 className="text-3xl font-bold ">{balance}</h1>
+          {query.error ? (
+            <h1 className="text-3xl font-bold ">$--</h1>
+          ) : (
+            <h1 className="text-3xl font-bold ">{balance}</h1>
+          )}
         </div>
       </div>
     </div>

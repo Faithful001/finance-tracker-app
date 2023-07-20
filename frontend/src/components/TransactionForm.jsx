@@ -2,14 +2,15 @@ import { useContext, useReducer, useState } from "react";
 import { TransactionContext } from "./context/TransactionContext";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "./context/AuthContext";
 
 const TransactionForm = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [specification, setSpecification] = useState("Income");
-  const { state, dispatch } = useContext(TransactionContext);
-
-  const transaction = { description, amount, specification };
+  const { dispatch } = useContext(TransactionContext);
+  const [error, setError] = useState("");
+  const { user } = useContext(AuthContext);
 
   const [showIncomeRectangle, setShowIncomeRectangle] = useState(true);
   const [showExpenseRectangle, setShowExpenseRectangle] = useState(false);
@@ -17,14 +18,23 @@ const TransactionForm = () => {
   const queryClient = useQueryClient();
 
   const handleSubmit = () => {
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
+    const transaction = { description, amount, specification };
     axios
-      .post("http://localhost:4000/api/transactions/", transaction)
+      .post("http://localhost:4000/api/transactions/", transaction, {
+        headers: {
+          Authorization: `Bearer: ${user.token}`,
+        },
+      })
       .then((res) => {
         dispatch({ type: "CREATE_TRANSACTION", payload: res.data });
         console.log(res.data);
-        setDescription("");
-        setAmount("");
-        setSpecification("");
+        // setDescription("");
+        // setAmount("");
+        // setSpecification("");
       })
       .catch((err) => console.log(err));
   };
@@ -41,18 +51,25 @@ const TransactionForm = () => {
     setSpecification("Expense");
   };
 
-  const { mutate, isLoading } = useMutation(handleSubmit, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("transaction");
-      console.log("transaction added successfully");
+  const mutation = useMutation(
+    handleSubmit,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("transaction");
+        console.log("transaction added successfully");
+      },
+      onError: (err) => {
+        console.log(err);
+      },
     },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+    {
+      enabled: Boolean(user),
+    }
+  );
 
-  const handleFormSubmit = () => {
-    mutate();
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate();
   };
 
   // console.log({description, amount, specification})
@@ -71,7 +88,7 @@ const TransactionForm = () => {
         <hr className="border-[0.1px] border-[#e0e0e0] mb-3" />
         <form
           className="mt-3 flex max-w-md flex-col items-center gap-4"
-          onSubmit={(e) => handleFormSubmit(e.preventDefault)}
+          onSubmit={handleFormSubmit}
         >
           {/* description */}
           <div>
@@ -116,27 +133,10 @@ const TransactionForm = () => {
                 {showExpenseRectangle && (
                   <div className="absolute slider w-16 h-6 left-[72px] px-2 py-1.5 bg-neutral-50 rounded justify-start items-center gap-2.5 flex transition-transform ease-in"></div>
                 )}
-
-                {/* <div className="absolute slider w-16 h-6 left-[72px] px-2 py-1.5 bg-neutral-50 rounded justify-start items-center gap-2.5 flex"></div> */}
               </div>
             </div>
-
-            {/* <div className="select flex flex-col relative top-[2px]">
-              <div className="w-[140px] h-[37px] p-1 bg-gray-200 rounded justify-start items-center inline-flex">
-                <div className="slider px-2 py-1.5 bg-neutral-50 rounded justify-start items-center gap-2.5 flex">
-                  <div className="text-zinc-600 text-[14px] font-bold">
-                    Income
-                  </div>
-                </div>
-                <div className="px-2 py-1.5 rounded justify-start items-center gap-2.5 flex">
-                  <div className="text-zinc-500 text-[14px] font-normal">
-                    Expense
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
-          {isLoading ? (
+          {mutation.isLoading ? (
             <button
               type="submit"
               className="bg-[#1A1A1A] hover:bg-[#444444] w-[330px] 5 p-2 rounded-md text-white"
@@ -151,6 +151,9 @@ const TransactionForm = () => {
               Add Transaction
             </button>
           )}
+          {!user && <p className="text-red-600">Login to continue</p>
+          }
+          {error && <p className="text-red-600">{error}</p>}
         </form>
       </div>
     </div>

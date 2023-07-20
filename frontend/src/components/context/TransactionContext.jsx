@@ -10,7 +10,6 @@ export const TransactionReducer = (state, action) => {
   switch (action.type) {
     case "GET_TRANSACTIONS":
       return {
-        ...state,
         transaction: action.payload,
       };
     case "GET_TRANSACTION":
@@ -18,7 +17,7 @@ export const TransactionReducer = (state, action) => {
     case "CREATE_TRANSACTION":
       return {
         ...state,
-        transaction: [action.payload, ...state],
+        transaction: [action.payload, ...state.transaction],
       };
     case "DELETE_TRANSACTION":
       return {
