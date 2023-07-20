@@ -1,4 +1,4 @@
 export const API = {
-    prodAPI: "https://finance-tracker-api-lawd.onrender.com/", 
+    prodAPI: "https://crimson-iguana-veil.cyclic.app/", 
     testAPI: "http://localhost:4000/"
 }
