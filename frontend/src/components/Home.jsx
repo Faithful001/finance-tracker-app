@@ -8,8 +8,8 @@ import { AuthContext } from "./context/AuthContext";
 import { TransactionContext } from "./context/TransactionContext";
 
 const Home = () => {
-  const { user, dispatch } = useContext(AuthContext);
   const { dispatch: transactionDispatch } = useContext(TransactionContext);
+  const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("user");

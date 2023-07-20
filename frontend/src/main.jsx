@@ -9,13 +9,13 @@ import { AuthContextProvider } from "./components/context/AuthContext.jsx";
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <AuthContextProvider>
-    <QueryClientProvider client={queryClient}>
-      <TransactionContextProvider>
-        <App />
-      </TransactionContextProvider>
-    </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <TransactionContextProvider>
+          <App />
+        </TransactionContextProvider>
+      </QueryClientProvider>
     </AuthContextProvider>
-  // </React.StrictMode>
+  </React.StrictMode>
 );
