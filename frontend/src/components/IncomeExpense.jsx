@@ -10,7 +10,7 @@ const IncomeExpense = () => {
   const [income, setIncome] = useState("$0");
   const [expense, setExpense] = useState("$0");
   const { user } = useContext(AuthContext);
-  // const [error, setError] = useState("")
+
 
   const handleTransactions = async () => {
     try {
