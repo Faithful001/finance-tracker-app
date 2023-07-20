@@ -10,6 +10,7 @@ const TransactionForm = () => {
   const [specification, setSpecification] = useState("Income");
   const { dispatch } = useContext(TransactionContext);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const { user } = useContext(AuthContext);
 
   const [showIncomeRectangle, setShowIncomeRectangle] = useState(true);
@@ -17,27 +18,37 @@ const TransactionForm = () => {
 
   const queryClient = useQueryClient();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!user) {
       setError("You must be logged in");
       return;
     }
-    const transaction = { description, amount, specification };
-    axios
-      .post("http://localhost:4000/api/transactions/", transaction, {
-        headers: {
-          Authorization: `Bearer: ${user.token}`,
-        },
-      })
-      .then((res) => {
-        dispatch({ type: "CREATE_TRANSACTION", payload: res.data });
-        console.log(res.data);
-        // setDescription("");
-        // setAmount("");
-        // setSpecification("");
-      })
-      .catch((err) => console.log(err));
+    try {
+      const transaction = { description, amount, specification };
+      const response = await axios.post(
+        "http://localhost:4000/api/transactions/",
+        transaction,
+        {
+          headers: {
+            Authorization: `Bearer: ${user.token}`,
+          },
+        }
+      );
+      dispatch({ type: "CREATE_TRANSACTION", payload: res.data });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   };
+  //     .then((res) => {
+
+  //       console.log(res.data);
+  //       // setDescription("");
+  //       // setAmount("");
+  //       // setSpecification("");
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const handleIncomeClick = () => {
     setShowIncomeRectangle(true);
@@ -151,8 +162,7 @@ const TransactionForm = () => {
               Add Transaction
             </button>
           )}
-          {!user && <p className="text-red-600">Login to continue</p>
-          }
+          {!user && <p className="text-red-600">Login to continue</p>}
           {error && <p className="text-red-600">{error}</p>}
         </form>
       </div>

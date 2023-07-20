@@ -17,19 +17,23 @@ const TransactionHistory = () => {
       return;
     }
     if (user && user.token) {
-      const response = await axios.delete(
-        "http://localhost:4000/api/transactions/",
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
+      try {
+        const response = await axios.delete(
+          "http://localhost:4000/api/transactions/",
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          console.log("All transactions deleted successfully");
+          return response.data;
+        } else {
+          throw new Error("An unexpected error occured");
         }
-      );
-      if (response.status === 200) {
-        console.log("All transactions deleted successfully");
-        return response.data;
-      } else {
-        throw new Error("An unexpected error occured");
+      } catch (error) {
+        console.log(error);
       }
     }
   };
