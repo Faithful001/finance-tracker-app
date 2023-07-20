@@ -15,8 +15,8 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <div className="App">
           <Routes>
-            <Route path="/not-logged-in" element={<NotLoggedIn/>} />
-            <Route exact path="/" element={<Home />} />
+            <Route path="/" element={<NotLoggedIn/>} />
+            <Route exact path="/user" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             {/* <Route path="*" element={<NoPage/>}/> */}
