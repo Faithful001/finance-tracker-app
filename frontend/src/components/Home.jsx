@@ -9,7 +9,7 @@ import { TransactionContext } from "./context/TransactionContext";
 
 const Home = () => {
   const { user, dispatch } = useContext(AuthContext);
-  const { dispatch: transactionDispatch } = useContext(AuthContext);
+  const { dispatch: transactionDispatch } = useContext(TransactionContext);
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("user");
