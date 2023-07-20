@@ -8,13 +8,14 @@ import { AuthContext } from "./context/AuthContext";
 import { TransactionContext } from "./context/TransactionContext";
 
 const Home = () => {
-  const { dispatch: transactionDispatch } = useContext(TransactionContext);
   const { user, dispatch } = useContext(AuthContext);
+  const { dispatch: transactionDispatch } = useContext(TransactionContext);
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("user");
+    transactionDispatch({ type: "GET_TRANSACTIONS", payload: null });
+    transactionDispatch({ type: "RESET_TRANSACTIONS" });
     dispatch({ type: "LOGOUT" });
-    transactionDispatch({type: "GET_TRANSACTIONS", payload: null})
     navigate("/login");
   };
 
@@ -28,9 +29,7 @@ const Home = () => {
           {/* <Link to="/login"> */}
 
           {user ? (
-            <p className="mb-1 text-sm text-slate-400">
-              {user.email}
-            </p>
+            <p className="mb-1 text-sm text-slate-400">{user.email}</p>
           ) : (
             <Link to="/login">
               <button className="mb-1 float-right underline text-sm text-slate-400 cursor-pointer">

@@ -1,2 +1,7 @@
 node_modules
+<<<<<<< HEAD
 .env
+=======
+.env
+playground-1.mongodb.js
+>>>>>>> 80c2747 (Initial commit)

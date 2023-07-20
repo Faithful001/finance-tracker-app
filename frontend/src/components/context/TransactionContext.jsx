@@ -24,18 +24,22 @@ export const TransactionReducer = (state, action) => {
           (transaction) => transaction._id !== action.payload._id
         ),
       };
-    case "UPDATE_TRANSACTION":
-      const { transactionId, updatedContent } = action.payload;
-      const updatedTransactions = state.transactions.map((transaction) => {
-        if (transaction.id === transactionId) {
-          return { ...transaction, ...updatedContent };
-        }
-        return transaction;
-      });
+    case "RESET_TRANSACTIONS":
       return {
-        ...state,
-        transactions: updatedTransactions,
+        transaction: null,
       };
+    // case "UPDATE_TRANSACTION":
+    //   const { transactionId, updatedContent } = action.payload;
+    //   const updatedTransactions = state.transactions.map((transaction) => {
+    //     if (transaction.id === transactionId) {
+    //       return { ...transaction, ...updatedContent };
+    //     }
+    //     return transaction;
+    //   });
+    //   return {
+    //     ...state,
+    //     transactions: updatedTransactions,
+    //   };
     default:
       return state;
   }
