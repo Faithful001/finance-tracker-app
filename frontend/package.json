@@ -1,5 +1,4 @@
 {
-  "proxy": "https://crimson-iguana-veil.cyclic.app/",
   "name": "expense-tracker",
   "private": true,
   "version": "0.0.0",
