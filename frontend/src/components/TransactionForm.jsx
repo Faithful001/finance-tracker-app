@@ -3,6 +3,7 @@ import { TransactionContext } from "./context/TransactionContext";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "./context/AuthContext";
+import { API } from "../api/api";
 
 const TransactionForm = () => {
   const [description, setDescription] = useState("");
@@ -26,7 +27,7 @@ const TransactionForm = () => {
     try {
       const transaction = { description, amount, specification };
       const response = await axios.post(
-        "http://localhost:4000/api/transactions/",
+        `${API.prodAPI}/api/transactions/`,
         transaction,
         {
           headers: {

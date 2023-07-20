@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API } from "../api/api";
 
 const Signup = () => {
   const { user, dispatch } = useContext(AuthContext);
@@ -21,7 +22,7 @@ const Signup = () => {
   const formSignup = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/user/signup",
+        `${API.prodAPI}/api/user/signup`,
         body
       );
       // const token = response.data.token;

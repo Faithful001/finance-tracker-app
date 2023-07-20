@@ -3,6 +3,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { TransactionContext } from "./context/TransactionContext";
 import { AuthContext } from "./context/AuthContext";
+import { API } from "../api/api";
 
 const TotalBalance = () => {
   const { dispatch } = useContext(TransactionContext);
@@ -14,7 +15,7 @@ const TotalBalance = () => {
     try {
       if (user && user.token) {
         const response = await axios.get(
-          "http://localhost:4000/api/transactions/",
+          `${API.prodAPI}/api/transactions/`,
           {
             headers: {
               Authorization: `Bearer: ${user.token}`,

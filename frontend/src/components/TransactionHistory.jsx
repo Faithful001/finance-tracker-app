@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TransactionContext } from "./context/TransactionContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "./context/AuthContext";
+import { API } from "../api/api";
 
 const TransactionHistory = () => {
   const { dispatch } = useContext(TransactionContext);
@@ -19,7 +20,7 @@ const TransactionHistory = () => {
     if (user && user.token) {
       try {
         const response = await axios.delete(
-          "http://localhost:4000/api/transactions/",
+          `${API.prodAPI}/api/transactions/`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,
@@ -69,7 +70,7 @@ const TransactionHistory = () => {
     try {
       if (user && user.token) {
         const response = await axios.get(
-          "http://localhost:4000/api/transactions/",
+          `${API.prodAPI}/api/transactions/`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

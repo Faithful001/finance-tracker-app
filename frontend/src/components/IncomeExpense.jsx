@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "./context/AuthContext";
+import { API } from "../api/api";
 
 const IncomeExpense = () => {
   const { dispatch } = useContext(TransactionContext);
@@ -11,12 +12,11 @@ const IncomeExpense = () => {
   const [expense, setExpense] = useState("$0");
   const { user } = useContext(AuthContext);
 
-
   const handleTransactions = async () => {
     try {
       if (user && user.token) {
         const response = await axios.get(
-          "http://localhost:4000/api/transactions/",
+          `${API.prodAPI}/api/transactions/`,
           {
             headers: {
               Authorization: `Bearer: ${user.token}`,
