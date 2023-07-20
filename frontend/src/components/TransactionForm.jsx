@@ -34,7 +34,7 @@ const TransactionForm = () => {
           },
         }
       );
-      dispatch({ type: "CREATE_TRANSACTION", payload: res.data });
+      dispatch({ type: "CREATE_TRANSACTION", payload: response.data });
       return response.data;
     } catch (error) {
       console.log(error);

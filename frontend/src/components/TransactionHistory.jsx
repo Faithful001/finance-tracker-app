@@ -26,6 +26,7 @@ const TransactionHistory = () => {
             },
           }
         );
+        dispatch({type: "DELETE_TRANSACTION", payload: response.data})
         if (response.status === 200) {
           console.log("All transactions deleted successfully");
           return response.data;
