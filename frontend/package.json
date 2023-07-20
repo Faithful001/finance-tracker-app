@@ -1,4 +1,5 @@
 {
+  "proxy": "https://finance-tracker-api-lawd.onrender.com/",
   "name": "expense-tracker",
   "private": true,
   "version": "0.0.0",
