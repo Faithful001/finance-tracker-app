@@ -7,7 +7,7 @@ const {
   deleteTransaction,
   deleteTransactions,
   updateTransaction,
-} = require("../controllers.js/transactionControllers");
+} = require("../controllers/transactionControllers");
 
 const requireAuth = require("../middleware/requireAuth");
 
