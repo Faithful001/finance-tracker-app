@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
 
 const NotLoggedIn = () => {
   return (
@@ -8,7 +10,7 @@ const NotLoggedIn = () => {
         <div className="home w-[30rem] h-screen pb-5 px-[10px] bg-white flex">
           <div className="section mx-16">
             <div className="header items-center justify-between">
-              <h1 className="font-semibold mb-5 mr-14 flex pt-4 flex-col items-center text-lg">
+              <h1 className="font-semibold mb-5 mr-20 flex pt-4 flex-col items-center text-lg">
                 Finance Tracker
               </h1>
 
@@ -23,7 +25,7 @@ const NotLoggedIn = () => {
 
               {/* income-expense */}
               <div className="flex flex-col items-center">
-                <div className="income-expense-wrapper flex items-center justify-center mt-6 border-2 w-full border-[#EBEBEB] rounded-md p-3">
+                <div className="income-expense-wrapper flex items-center justify-center mt-6 mb-6 border-2 w-full border-[#EBEBEB] rounded-md p-3">
                   <div className="mr-5 ">
                     <p className="-mb-7 text-center text-sm text-[#a1a1a1] font-medium">
                       INCOME
@@ -47,8 +49,8 @@ const NotLoggedIn = () => {
               </div>
 
               {/* login/signup */}
-              <div className="login-signup">
-                <div className="flex justify-between">
+              <div className="login-signup flex flex-col items-center justify-center">
+                <div className="flex justify-between ">
                   <Link to="/login">
                     <p className="underline text-slate-400">Login</p>
                   </Link>

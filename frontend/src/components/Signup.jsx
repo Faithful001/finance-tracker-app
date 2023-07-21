@@ -31,7 +31,7 @@ const Signup = () => {
       dispatch({ type: "LOGIN", payload: JSON.stringify(response.data) });
       setMessage(response.data?.message);
       setError("");
-      navigate("/login");
+      navigate("/user");
       return response.data;
     } catch (error) {
       //   console.log(error.message);
@@ -56,7 +56,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="login w-[30rem] h-screen pb-5 px-[10px] bg-white">
+    <div className="signup w-[30rem] h-screen pb-5 px-[10px] bg-white">
       <div className="section p-10 mx-16">
         <form
           className="flex max-w-md flex-col gap-4"

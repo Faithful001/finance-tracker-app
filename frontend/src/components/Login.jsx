@@ -31,7 +31,7 @@ const Login = () => {
       dispatch({ type: "LOGIN", payload: response.data });
       setMessage(response.data?.message);
       setError("");
-      navigate("/")
+      navigate("/user")
       return response.data;
     } catch (error) {
       console.log(error.response.data?.error);
