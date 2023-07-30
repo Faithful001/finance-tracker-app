@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 const requireAuth = async (req, res, next) => {
-  // verify user is authenticated
+  // verify if user is authenticated
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -11,6 +11,7 @@ const requireAuth = async (req, res, next) => {
 
   const token = authorization.split(" ")[1];
 
+  //verify token
   try {
     const { _id } = jwt.verify(token, process.env.SECRET);
 

@@ -12,6 +12,7 @@ const getTransactions = async (req, res) => {
 
 //get a single transaction
 const getTransaction = async (req, res) => {
+  console.log(req)
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "No such transaction" });
