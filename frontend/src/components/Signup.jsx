@@ -1,5 +1,3 @@
-"use client";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useContext, useState } from "react";
