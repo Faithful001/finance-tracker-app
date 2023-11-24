@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 body {
-  background: rgb(224, 224, 224);
-  overflow-x: hidden;
-  /* font-family: 'Barlow', sans-serif; */
-  font-family: "Plus Jakarta Sans", sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	background: white;
+	overflow-x: hidden;
+	/* font-family: 'Barlow', sans-serif; */
+	font-family: "Plus Jakarta Sans", sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .home {
-  min-height: 100%;
-  height: 100vh;
-  /* width: 100%; */
-  overflow: auto;
-  overflow-x: hidden;
+	min-height: 100%;
+	height: 100vh;
+	/* width: 100%; */
+	overflow: auto;
+	overflow-x: hidden;
 }
