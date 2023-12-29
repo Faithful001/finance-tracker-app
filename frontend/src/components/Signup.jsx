@@ -12,9 +12,14 @@ const Signup = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
+	const [visible, setVisible] = useState(false);
 	const navigate = useNavigate();
 
 	const queryClient = useQueryClient();
+
+	function handleVisibility() {
+		setVisible(!visible);
+	}
 
 	const body = { email, password };
 	const formSignup = async () => {
@@ -80,12 +85,29 @@ const Signup = () => {
 								placeholder="*****"
 							/>
 						</div>
-						<TextInput
-							id="password"
-							required
-							type="password"
-							onChange={(e) => setPassword(e.target.value)}
-						/>
+						<div className="relative">
+							<TextInput
+								id="password1"
+								required
+								type={visible ? "text" : "password"}
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+							{!visible ? (
+								<span
+									onClick={handleVisibility}
+									className="material-symbols-outlined absolute text-xl top-2 right-2 text-black pl-5 cursor-pointer"
+								>
+									visibility_off
+								</span>
+							) : (
+								<span
+									onClick={handleVisibility}
+									className="material-symbols-outlined absolute text-xl top-2 right-2 text-black pl-5 cursor-pointer"
+								>
+									visibility
+								</span>
+							)}
+						</div>
 					</div>
 					{isLoading ? (
 						<button
